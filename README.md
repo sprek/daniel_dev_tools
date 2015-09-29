@@ -3,13 +3,13 @@
 # emacs packages:
 
 ## c++
-projectile
-helm
-helm-gtags
-helm-projectile
-helm-swoop
-ggtags
+- projectile
+- helm
+- helm-gtags
+- helm-projectile
+- helm-swoop
+- ggtags
 
 ## python
-elpy
+- elpy
 
