@@ -1,4 +1,15 @@
 # daniel_dev_tools
 
-# Testing commit
-# DANIEL BRANCH TEST
+# emacs packages:
+
+## c++
+projectile
+helm
+helm-gtags
+helm-projectile
+helm-swoop
+ggtags
+
+## python
+elpy
+
