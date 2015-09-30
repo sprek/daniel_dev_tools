@@ -2,7 +2,7 @@
 
 # emacs packages:
 
-## c++
+### c++
 - projectile
 - helm
 - helm-gtags
@@ -10,7 +10,7 @@
 - helm-swoop
 - ggtags
 
-## python
+### python
 - elpy
 
 ## How to do passwordless github pushes:
