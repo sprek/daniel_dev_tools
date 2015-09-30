@@ -1,6 +1,6 @@
 # daniel_dev_tools
 
-[git](#git)
+[git command visualization](#pretty-command-line-git-visualization)
 
 ## emacs packages:
 
