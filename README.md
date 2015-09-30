@@ -64,3 +64,14 @@ edit ~/.gitconfig
 set -g @plugin 'tmux-plugins/tmux-copycat'
 ```
 Hit prefix + I to fetch the plugin and source it
+
+## bash
+
+### bashrc
+- Enable 256 colors in linux term
+```
+# enable 256 colors
+if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
+    export TERM=xterm-256color
+fi
+```
