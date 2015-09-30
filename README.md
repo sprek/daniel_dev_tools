@@ -1,6 +1,8 @@
 # daniel_dev_tools
 
-# emacs packages:
+[git](#git)
+
+## emacs packages:
 
 ### c++
 - projectile
@@ -37,7 +39,7 @@
     git remote add origin git@gitsprek:sprek/daniel_dev_tools.git
 ```
 
-### Pretty command line visualization
+### Pretty command line git visualization
 [ref1](http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs)
 
 edit ~/.gitconfig
