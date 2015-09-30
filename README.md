@@ -15,6 +15,7 @@
 
 ## How to do passwordless github pushes:
 https://gist.github.com/rosswd/e1afd2b0b0d515517eac
+
 http://stackoverflow.com/questions/7927750/specify-an-ssh-key-for-git-push-for-a-given-domain
 
 1. ssh-keygen -t rsa -C "sprekk@gmail.com"
