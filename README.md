@@ -18,7 +18,8 @@ https://gist.github.com/rosswd/e1afd2b0b0d515517eac
 
 http://stackoverflow.com/questions/7927750/specify-an-ssh-key-for-git-push-for-a-given-domain
 
-1. ssh-keygen -t rsa -C "sprekk@gmail.com"
+1. Create the key:
+```ssh-keygen -t rsa -C "sprekk@gmail.com"```
 2. Move the keys to ~/.ssh/keys
 3. Add the public key to github: Settings -> Deploy keys -> Add deploy key
 4. Add key to ssh config:
