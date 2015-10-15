@@ -1,13 +1,13 @@
 # daniel_dev_tools
 
-- [emacs packages](#emacs-packages)
+- [emacs](#emacs)
 - [git](#git)
 - [tmux](#tmux)
 - [bash](#bash)
 - [python](#python)
 
 
-## emacs:
+## emacs
 
 ### packages
 #### c++
