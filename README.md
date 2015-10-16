@@ -98,7 +98,14 @@ source env/bin/activate
 pip install -U pip
 pip install -U setuptools
 pip install jedi   # for emacs bindings
+pip install pylint
+
+pylint --generate-rcfile > .pylintrc
 ```
+
+To get rid of the pylint warning: ```Unable to import <module>```:
+edit .pylintrc:
+```init-hook='import sys; sys.path.append("/path/to/project")'```
 
 - web application
 ```
