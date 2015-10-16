@@ -20,6 +20,7 @@
 
 #### python
 - elpy
+- web-mode
 
 ### install emacs 2.4 on centos 6.x
 

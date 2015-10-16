@@ -2,12 +2,35 @@
 
 {% block scripts %}
 {{super()}}
+<script type=text/javascript>
+    $(document).ready(function(){
+        alert ("OK");
+        $("#user_form").on('submit', function(e) {
+            e.preventDefault();
+            $.post("add_user", {"data" : $(#user_nameInput).val()}).done(function(data) {
+                $("#users_html").html(data)
+            }
+        });
+    });
+</script>
+}
 {% endblock %}
 
 {% block content %}
 <div class="container">
   <h1>Hello World</h1>
   <p>Test Page</p>
+  <form role="form" class="form-inline" id="user_form">
+      <div class="form-group">
+          <label for="user_nameInput" class="sr-only">User Name</label>
+          <input type="text" class="form-control" id="user_nameInput" placeholder="User Name">
+      </div>
+      <button type="submit" class="btn btn-primary" id="user_addBtn">Submit</button>
+  </form>
+  <h3>Users:</h3>
+  {{ users_html|safe }}
+  <h4>Messages:</h4>
+  <p span="#messages"></p>
 </div>
 {% endblock %}
 

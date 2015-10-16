@@ -3,11 +3,6 @@ import user, create_db
 
 TEST_USER_VALUES1 = [1, 'daniel']
 
-def clear_tables(db):
-    cur = db.cursor()
-    cur.execute('DELETE FROM user')
-    db.commit()
-
 class FlaskTestCase(unittest.TestCase):
     def setUp(self):
         self.db_fd = tempfile.mkstemp()
@@ -19,7 +14,7 @@ class FlaskTestCase(unittest.TestCase):
         os.remove(self.db_fd[1])
 
     def test_user_db(self):
-        clear_tables(self.db)
+        user.clear_table(self.db)
         # insert user
         test_user = user.User (*TEST_USER_VALUES1)
         user.insert_user_into_db(test_user, self.db)

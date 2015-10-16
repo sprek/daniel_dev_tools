@@ -34,6 +34,11 @@ def insert_user_into_db(user, db):
                 _get_user_vals(user))
     db.commit()
 
+def clear_table(db):
+    cur = db.cursor()
+    cur.execute('DELETE FROM user')
+    db.commit()
+
 def _get_users_from_db_result(db_result):
     args_dict = {}
     cols = _list_columns_from_result(db_result)
