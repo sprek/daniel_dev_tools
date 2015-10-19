@@ -4,12 +4,12 @@
 {{super()}}
 <script type=text/javascript>
     $(document).ready(function(){
-        alert ("OK");
         $("#user_form").on('submit', function(e) {
             e.preventDefault();
-            $.post("add_user", {"data" : $(#user_nameInput).val()}).done(function(data) {
-                $("#users_html").html(data)
-            }
+            $.post("add_user", {"user_name" : $("#user_nameInput").val()}).done(function(data) {
+                $("#users_html").html(data);
+            });
+            $("#user_nameInput").val("")
         });
     });
 </script>
@@ -28,9 +28,7 @@
       <button type="submit" class="btn btn-primary" id="user_addBtn">Submit</button>
   </form>
   <h3>Users:</h3>
-  {{ users_html|safe }}
-  <h4>Messages:</h4>
-  <p span="#messages"></p>
+  <div id="users_html">{{ users_html|safe }}</div>
 </div>
 {% endblock %}
 

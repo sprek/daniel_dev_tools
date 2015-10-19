@@ -1,8 +1,8 @@
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, request
 from flask_bootstrap import Bootstrap
 import create_db
 import user, view
-import os, sqlite3
+import os, sqlite3, random
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -22,11 +22,11 @@ def create_app():
         return render_template('index.html', users_html=view.get_user_list_html(db))
 
     @app.route('/add_user', methods=('POST','GET'))
-    def add_user(user_name):
-        #user.insert_user_into_db(user.User(
-        #user.insert_user_into_db(user.User(
-        return view.get_user_list_html(get_db())
-
-
+    def add_user():
+        db = get_db()
+        new_user = user.User(random.randint(0,1000), request.form["user_name"].strip())
+        user.insert_user_into_db(new_user, db)
+        print ("INSERTING: " + str(new_user.id_num) + " NAME: " + new_user.name)
+        return view.get_user_list_html(db)
     
     return app
