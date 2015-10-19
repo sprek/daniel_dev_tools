@@ -1,4 +1,8 @@
-import sqlite3
+""" user
+Provides the User class that matches the "user" table in the database
+"""
+
+import data_model
 
 class User:
     def __init__(self, id_num=-1, name=''):
@@ -16,22 +20,22 @@ def get_user_ids_from_db(db):
 def get_users_from_db(db):
     cur = db.cursor()
     db_result = cur.execute("SELECT * FROM user")
-    return _get_users_from_db_result(db_result)
+    return data_model.get_objects_from_db_result(User, db_result)
 
 def get_user_from_db_by_name(name, db):
     cur = db.cursor()
     db_result = cur.execute("SELECT * FROM user where name = ?", (name,))
-    users = _get_users_from_db_result(db_result)
+    users = data_model.get_objects_from_db_result(User, db_result)
     if len(users) == 0:
         return None
     return users[0]
 
 def insert_user_into_db(user, db):
     cur = db.cursor()
-    attr_list = ','.join(_list_user_attributes())
-    val_list = ','.join(list(len(_list_user_attributes()) * '?'))
+    attr_list = ','.join(data_model.list_class_attributes(User))
+    val_list = ','.join(list(len(data_model.list_class_attributes(User)) * '?'))
     cur.execute("INSERT INTO user (" + attr_list + ") VALUES (" + val_list + ")",
-                _get_user_vals(user))
+                data_model.get_class_vals(User, user))
     db.commit()
 
 def clear_table(db):
@@ -39,25 +43,3 @@ def clear_table(db):
     cur.execute('DELETE FROM user')
     db.commit()
 
-def _get_users_from_db_result(db_result):
-    args_dict = {}
-    cols = _list_columns_from_result(db_result)
-    results = db_result.fetchall()
-    users = []
-    for result in results:
-        for i, val in enumerate(result):
-            args_dict[cols[i]] = val
-        users.append(User(**args_dict))
-    return users
-
-def _list_user_attributes():
-    return sorted(User().__dict__.keys())
-
-def _list_columns_from_result(result):
-    return list(map(lambda x: x[0], result.description))
-
-def _get_user_vals(user):
-    vals = []
-    for attr in sorted(User().__dict__.keys()):
-        vals.append(getattr(user, attr))
-    return vals
