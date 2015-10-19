@@ -18,28 +18,14 @@ def get_user_ids_from_db(db):
     return list(map(lambda x: x.id_num, get_users_from_db(db)))
 
 def get_users_from_db(db):
-    cur = db.cursor()
-    db_result = cur.execute("SELECT * FROM user")
-    return data_model.get_objects_from_db_result(User, db_result)
+    return data_model.get_objects_from_db(User, db)
 
 def get_user_from_db_by_name(name, db):
-    cur = db.cursor()
-    db_result = cur.execute("SELECT * FROM user where name = ?", (name,))
-    users = data_model.get_objects_from_db_result(User, db_result)
-    if len(users) == 0:
-        return None
-    return users[0]
+    return data_model.get_object_from_db_by_key(User, "name", name, db)
 
 def insert_user_into_db(user, db):
-    cur = db.cursor()
-    attr_list = ','.join(data_model.list_class_attributes(User))
-    val_list = ','.join(list(len(data_model.list_class_attributes(User)) * '?'))
-    cur.execute("INSERT INTO user (" + attr_list + ") VALUES (" + val_list + ")",
-                data_model.get_class_vals(User, user))
-    db.commit()
+    data_model.insert_object_into_db(user, db)
 
 def clear_table(db):
-    cur = db.cursor()
-    cur.execute('DELETE FROM user')
-    db.commit()
+    data_model.clear_table(User, db)
 
