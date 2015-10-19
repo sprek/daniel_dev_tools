@@ -6,6 +6,8 @@ Assumes that the class_name passed in to the functions has
 member variables whose names match the columns in the database table
 """
 
+import user
+
 def get_objects_from_db_result(class_name, db_result):
     """
     input: class_name - Class
@@ -44,7 +46,7 @@ def get_class_vals(obj):
              member variable name
     """
     vals = []
-    for attr in sorted(type(obj).__dict__.keys()):
+    for attr in sorted(obj.__dict__.keys()):
         vals.append(getattr(obj, attr))
     return vals
 
