@@ -21,6 +21,7 @@
 #### python
 - elpy
 - web-mode
+- jedi
 
 ### install emacs 2.4 on centos 6.x
 
