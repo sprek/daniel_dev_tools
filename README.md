@@ -93,6 +93,8 @@ fi
 ## python
 
 - setup
+```wget https://bootstrap.pypa.io/get-pip.py```
+```python get-pip.py```
 ```
 virtualenv -p python3 env
 source env/bin/activate
