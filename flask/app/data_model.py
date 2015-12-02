@@ -6,8 +6,6 @@ Assumes that the class_name passed in to the functions has
 member variables whose names match the columns in the database table
 """
 
-import user
-
 def get_objects_from_db_result(class_name, db_result):
     """
     input: class_name - Class
@@ -60,7 +58,7 @@ def get_objects_from_db(class_name, db):
            db - database
     returns: list of class_name objects in database
     """
-    table_name = class_name.__name__.lower()
+    table_name = class_name_to_table_name(class_name)
     cur = db.cursor()
     db_result = cur.execute("SELECT * FROM " + table_name)
     return get_objects_from_db_result(class_name, db_result)
@@ -75,7 +73,7 @@ def get_object_from_db_by_key(class_name, key_name, key_val, db):
              or None if not found
     """
     cur = db.cursor()
-    table_name = class_name.__name__.lower()
+    table_name = class_name_to_table_name(class_name)
     db_result = cur.execute("SELECT * FROM " + table_name + " where " + key_name + " = ?",
                             (key_val,))
     objects = get_objects_from_db_result(class_name, db_result)
@@ -89,19 +87,80 @@ def insert_object_into_db (obj, db):
            db - database
     """
     cur = db.cursor()
-    table_name = type(obj).__name__.lower()
+    table_name = class_name_to_table_name(type(obj))
     attr_list = ','.join(list_class_attributes(type(obj)))
     val_list = ','.join(list(len(list_class_attributes(type(obj))) * '?'))
     cur.execute("INSERT INTO " + table_name + " (" + attr_list + ") VALUES (" + val_list + ")",
                 get_class_vals(obj))
     db.commit()
 
+def update_column_in_db_by_key (column_name, column_val, key_name, key_val, class_name, db):
+    """
+    input: column_name - string name of column to update in db
+           column_val - value of column
+           key_name - string name of the key
+           key_val - value of the key
+           class_name - string name of the class
+           db - database
+    """
+    cur = db.cursor()
+    table_name = class_name_to_table_name(class_name)
+    cur.execute("UPDATE " + table_name + " SET " + column_name + "=?" + " WHERE " +
+                key_name + "=?", (column_val, key_val))
+    db.commit()
+
+def update_object_in_db_by_key (obj, key_name, key_val, db, do_insert=True):
+    """
+    input: obj - data model object
+           key_name - string of the key column name
+           key_val - value of the key
+           db - database
+           do_insert - boolean. if true, object will be inserted if it doesn't exist in the db
+    """
+    cur = db.cursor()
+    table_name = class_name_to_table_name(type(obj))
+    if get_object_from_db_by_key (type(obj), key_name, key_val, db):
+        # object exists
+        attr_list = list_class_attributes(type(obj))
+        set_string = ','.join('%s=?' % t for t in attr_list)
+        val_list = get_class_vals(obj)
+        val_list.append(key_val)
+        cur.execute("UPDATE " + table_name + " SET " + set_string + " WHERE " + key_name + "=?",
+                    val_list)
+        db.commit()
+    else:
+        if do_insert:
+            insert_object_into_db(obj, db)
+
 def clear_table (class_name, db):
     """
     input: class_name - Class
     returns: db - database
     """
-    table_name = class_name.__name__.lower()
+    table_name = class_name_to_table_name(class_name)
     cur = db.cursor()
     cur.execute('DELETE FROM ' + table_name)
     db.commit()
+
+def clear_table_by_key (class_name, key_name, key_val, db):
+    """
+    input: class_name - Class, key_name - string, key_val - value of key
+    returns: db - database
+    """
+    table_name = class_name.__name__.lower()
+    cur = db.cursor()
+    cur.execute('DELETE FROM ' + table_name + " where " + key_name + " = ?",
+                (key_val,))
+    db.commit()
+
+def class_name_to_table_name (class_name):
+    """
+    input: class_name - Class
+    returns: a string of the class with the first letter lowercase
+    """
+    class_str = class_name.__name__
+    if len(class_str) == 0:
+        return ''
+    elif len(class_str) == 1:
+        return class_str.lower()
+    return class_str[0].lower() + class_str[1:]
