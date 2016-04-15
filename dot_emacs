@@ -219,3 +219,15 @@
 (global-set-key "\e[1;2B" 'windmove-down)
 (global-set-key "\e[1;2C" 'windmove-right)
 (global-set-key "\e[1;2D" 'windmove-left)
+
+(windmove-default-keybindings)
+
+(elpy-enable)
+(when (require 'flycheck nil t)
+  (setq elpy-modules
+	(delq 'elpy-module-flymak elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+(setq auto-save-default nil)
+
+(setq flycheck-indication-mode nil)

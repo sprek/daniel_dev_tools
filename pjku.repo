@@ -1,0 +1,12 @@
+[pjku]
+name=Extra Packages for Enterprise Linux 6 – $basearch
+baseurl=http://pj.freefaculty.org/EL/6/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/PaulJohnson-BinaryPackageSigningKey
+[pjku-source]
+name=Extra Packages for Enterprise Linux 6 – $basearch – Source
+baseurl=http://pj.freefaculty.org/EL/6/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/PaulJohnson-BinaryPackageSigningKey
