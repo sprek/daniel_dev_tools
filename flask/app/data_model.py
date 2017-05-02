@@ -4,6 +4,8 @@ sqlite3 database using a data model pattern.
 
 Assumes that the class_name passed in to the functions has
 member variables whose names match the columns in the database table
+
+Note: obj.__class__ might have to be changed to type(obj) depending on version of python
 """
 
 def get_objects_from_db_result(class_name, db_result):
@@ -87,9 +89,9 @@ def insert_object_into_db (obj, db):
            db - database
     """
     cur = db.cursor()
-    table_name = class_name_to_table_name(type(obj))
-    attr_list = ','.join(list_class_attributes(type(obj)))
-    val_list = ','.join(list(len(list_class_attributes(type(obj))) * '?'))
+    table_name = class_name_to_table_name(obj.__class__)
+    attr_list = ','.join(list_class_attributes(obj.__class__))
+    val_list = ','.join(list(len(list_class_attributes(obj.__class__)) * '?'))
     cur.execute("INSERT INTO " + table_name + " (" + attr_list + ") VALUES (" + val_list + ")",
                 get_class_vals(obj))
     db.commit()
@@ -118,10 +120,10 @@ def update_object_in_db_by_key (obj, key_name, key_val, db, do_insert=True):
            do_insert - boolean. if true, object will be inserted if it doesn't exist in the db
     """
     cur = db.cursor()
-    table_name = class_name_to_table_name(type(obj))
-    if get_object_from_db_by_key (type(obj), key_name, key_val, db):
+    table_name = class_name_to_table_name(obj.__class__)
+    if get_object_from_db_by_key (obj.__class__, key_name, key_val, db):
         # object exists
-        attr_list = list_class_attributes(type(obj))
+        attr_list = list_class_attributes(obj.__class__)
         set_string = ','.join('%s=?' % t for t in attr_list)
         val_list = get_class_vals(obj)
         val_list.append(key_val)
